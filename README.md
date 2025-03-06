@@ -2,7 +2,7 @@
 AUTOM - Automatic Unit Testing Orchestration Module for Cisco Network Services Orchestrator (NSO)
 
 ## The AUTOM package is built for NSO and must be loaded in your local NSO server
-Initial build is in NSO 6.4.1 but it will run in any NSO 5.2.x or newer.
+Initial build is built in NSO v6.4.1 but it will run in any NSO v5.2.3 or newer.
 
 # AUTOM or Automatic Testing Ochestration Module 
 AUTOM is a action package for NSO, the actions available are:
