@@ -33,3 +33,8 @@ admin@ncs# autom create-tests all-service-instances packages-folder-path /var/op
 ## If your testing is meant for a pipeline kind of empty NSO, use optional keyword "test-in-isolation"
 
 admin@ncs# autom create-tests all-service-instances packages-folder-path /var/opt/ncs/current/packages test-in-isolation 
+
+## Execute-tests reads options from the created test files, creates new execution_log and timestamp folders for each run 
+
+admin@ncs# autom execute-tests all-service-instances packages-folder-path /var/opt/ncs/current/packages 
+
