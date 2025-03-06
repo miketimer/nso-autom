@@ -1,0 +1,203 @@
+module autom {
+
+  namespace "http://cx.cisco.com/autom";
+  prefix autom;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  description
+    "AUTOM - Automatic Unit Testing Orchestrator Module";
+
+  revision 2025-03-04 {
+    description
+      "Initial revision.";
+  }
+  grouping keywords {
+    leaf no-networking {
+      description "Note: Will not verify configuration actually pushed to devices";
+      tailf:info "Generate Unit Testing files without impacting service config pushed to devices";
+      type empty;
+    }
+    leaf dry-run {
+      description "Dry-run setting will not modify the configuration on the devices";
+      tailf:info "Dry-run setting will not modify the configuration on the devices";
+      type empty;
+    }
+    leaf test-in-isolation {
+      description "Remove all services before testing each service instance in isolation (execution time is extended)";
+      tailf:info "Remove all services before testing each service instance in isolation (execution time is extended)";
+      type empty;
+    }
+    leaf include-children {
+      description "Include children of stacked services from testing (not recommended)";
+      tailf:info "Include children of stacked services from testing (not recommended)";
+      type empty;
+    }
+    leaf-list pre-config-cdb {
+      description "List all xpaths for pre-configuration capture inside NSO CDB []";
+      tailf:info "List all xpaths for pre-configuration capture inside NSO CDB []";
+      type string;
+    }
+    leaf-list pre-config-devices {
+      description "List devices for pre-configuration capture";
+      tailf:info "List devices for pre-configuration capture";
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+    }
+  }
+  typedef dir-path-t {
+    description "Path to a directory in the filesystem.";
+    tailf:info "Path to a directory in the filesystem.";
+    type string;
+  }
+  container autom {
+    description "This is a orchestrator of Unit Testing, create, update and run unit tests on NSO internal only or with external devices tested";
+    tailf:action create-tests {
+      tailf:actionpoint autom-action-create;
+      input {
+        choice service {
+          leaf all-service-instances {
+            tailf:info "Use all service instances to generate test cases";
+            description "Use all service instances to generate test cases";
+            type empty;
+          }
+          leaf-list service-instance {
+            tailf:info "Input full service instance in keypath format (list in [])";
+            description "Input full service instance in keypath format (list in [])";
+            type string;
+          }
+        }
+        uses keywords;
+        leaf packages-folder-path {
+          tailf:info "Path to the folder where the packages are stored";
+          description "Path to the folder where the packages are stored";
+          mandatory true;
+          type dir-path-t;
+          tailf:cli-completion-actionpoint dir-path-comp;
+        }
+      }
+      output {
+        leaf result {
+          type string;
+        }
+      }
+    }
+    tailf:action execute-tests {
+      tailf:actionpoint autom-execute-action;
+      input {
+        choice service {
+          leaf all-service-instances {
+            tailf:info "Use all service instances to execute test cases";
+            description "Use all service instances to execute test cases";
+            type empty;
+          }
+          leaf-list package-name {
+            tailf:info "Input package name(s) (list in [])";
+            description "Input package name(s) (list in [])";
+            type string;
+          }
+        }
+        leaf packages-folder-path {
+          tailf:info "Path to the packages folder where test cases are stored";
+          description "Path to the packages folder where test cases are stored";
+          mandatory true;
+          type dir-path-t;
+          tailf:cli-completion-actionpoint dir-path-comp;
+        }
+        leaf store-test-log {
+          tailf:info "Store test log in the packages folder";
+          description "Store test log in the packages folder";
+          type empty;
+        }
+        leaf no-networking {
+          tailf:info "No-networking means no diff sent to network devices";
+          description "No-networking means no diff sent to network devices";
+          type empty;
+        }
+      }
+      output {
+        leaf result {
+          type string;
+        }
+      }
+    }
+    container load-merge {
+      tailf:action service-config {
+        tailf:actionpoint load-merge-service-config;
+        input {
+          leaf file-path {
+            description "Path where service_config.xml files exist";
+            tailf:info "Path where service_config.xml files exist";
+            mandatory true;
+            type dir-path-t;
+            tailf:cli-completion-actionpoint dir-path-comp;
+          }
+          leaf no-networking {
+            tailf:info "No-networking means no diff sent to network devices";
+            description "No-networking means no diff sent to network devices";
+            type empty;
+          }
+        }
+        output {
+          leaf result {
+            tailf:info "Load Merge service_config.xml files from path result";
+            type string;
+          }
+        }
+      }
+    }
+    container dry-run {
+      tailf:action dry-run {
+        tailf:actionpoint autom-dry-run-execute;
+        input {
+          choice exeution {
+            case execute {
+              leaf execute-tests {
+                tailf:info "Execute test cases";
+                description "Execute test cases";
+                type empty;
+              }
+            }
+            case generate {
+              leaf generate-tests {
+                tailf:info "Generate dry-run test case files";
+                description "Generate dry-run test case files";
+                type empty;
+              }
+            }
+          }
+          leaf file-path {
+            tailf:info "Path where generated test case files exist (and log will be written)";
+            mandatory true;
+            type dir-path-t;
+            tailf:cli-completion-actionpoint dir-path-comp;
+          }
+          leaf no-networking {
+            tailf:info "No-networking means no diff sent to network devices";
+            description "No-networking means no diff sent to network devices";
+            type empty;
+          }
+        }
+        output {
+          leaf result {
+            tailf:info "Test execution result, see generated log.html for details";
+            type string;
+          }
+        }
+      }
+    }
+    leaf no-networking {
+      type empty;
+      description "Run or create tests without touching the network";
+    }
+  }
+}
