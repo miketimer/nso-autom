@@ -1,7 +1,7 @@
 # nso-autom
 AUTOM - Automatic Unit Testing Orchestration Module for Cisco Network Services Orchestrator (NSO)
 
-# The AUTOM package is built for NSO and must be loaded in your local NSO server
+## The AUTOM package is built for NSO and must be loaded in your local NSO server
 Initial build is in NSO 6.4.1 but it will run in any NSO 5.2.x or newer.
 
 # AUTOM or Automatic Testing Ochestration Module 
@@ -26,10 +26,10 @@ Mandatory string input is the "packages-folder-path" which points to the locatio
 
 # SAMPLE USAGES:
 
-# Create-tests has the options all-service-instances or package-name
+## Create-tests has the options all-service-instances or package-name
 
 admin@ncs# autom create-tests all-service-instances packages-folder-path /var/opt/ncs/current/packages 
 
-# If your testing is meant for a pipeline kind of empty NSO, use optional keyword "test-in-isolation"
+## If your testing is meant for a pipeline kind of empty NSO, use optional keyword "test-in-isolation"
 
 admin@ncs# autom create-tests all-service-instances packages-folder-path /var/opt/ncs/current/packages test-in-isolation 
