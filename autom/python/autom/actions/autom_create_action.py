@@ -108,7 +108,7 @@ class AutomCreateAction(Action):
         if len(input.service_instance) > 0:
              child_services, parent_services, regular_services, top_level_services, services_xpath = get_service_keypaths(self,
                                      uinfo,
-                                     services_list)
+                                     services_list, input.ignore_xpaths)
              self.log.info("All Parent services : %s " % parent_services)
              self.log.info("All Child services : %s " % child_services)
              self.log.info("All Regular services: %s " % regular_services)
@@ -134,7 +134,7 @@ class AutomCreateAction(Action):
         else:
             child_services, parent_services, regular_services, top_level_services, services_xpath = get_service_keypaths(self,
                                     uinfo,
-                                    services_list)
+                                    services_list, input.ignore_xpaths)
         # By default (boolean exclude-children) the child services of
         # stacked services will be removed from testing separately.
         # To add these for testing, the include-children must be set

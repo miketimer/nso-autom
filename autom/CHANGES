@@ -1,0 +1,11 @@
+=====================================
+ AUTOM Change Log
+=====================================
+
+Version 0.2
+  Additions:
+  - Added feature ignore-xpaths to ignore service points (list in []) for create-tests action
+
+Version 0.1
+  Known limitations:
+  - Initial version of the autom module, all-service-instances is the only choice for now, packages coming soon

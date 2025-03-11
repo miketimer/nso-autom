@@ -53,6 +53,12 @@ module autom {
         path "/ncs:devices/ncs:device/ncs:name";
       }
     }
+    leaf-list ignore-xpaths {
+      tailf:info "Input xpaths of service points to be ignored (list in [])";
+      description "Input xpaths of service points to be ignored (list in [])";
+      type tailf:node-instance-identifier;
+      tailf:cli-completion-actionpoint "servicepoints";
+    }
   }
   typedef dir-path-t {
     description "Path to a directory in the filesystem.";

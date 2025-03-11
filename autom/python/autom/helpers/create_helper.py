@@ -258,7 +258,7 @@ def get_specific_check_sync_result(self, trans, service_instances):
     return services_list
 
 def get_service_keypaths(self, uinfo,
-                         services_list):
+                         services_list, ignore_xpaths):
     """
     Retrieve the service_keypaths based on the service_type input
 
@@ -266,6 +266,9 @@ def get_service_keypaths(self, uinfo,
     if service_point_list used, returns only the kp for the chosen
     service_points
 
+    The output ignores /nso-arc kp
+    ignores /service-scheduler:service-scheduler-kickers
+    ignores out-of-sync services
     """
     child_services = []
     services_xpath = {}
@@ -275,6 +278,13 @@ def get_service_keypaths(self, uinfo,
     skip = False
     for item in services_list.sync_result:
         self.log.info("xpath: ", item.service_id)
+        if len(ignore_xpaths)>0:
+            for keypath_to_ignore in ignore_xpaths:
+                if keypath_to_ignore in item.service_id:
+                    self.log.info("Removing keypath %s from results" % item.service_id)
+                    skip = True
+        if skip:
+            continue
         kpath = maapi.xpath2kpath(trans.maapi.msock, item.service_id)
         kp_node = ncs.maagic.get_node(trans, kpath)
         path = str(kp_node._path)
@@ -288,15 +298,31 @@ def get_service_keypaths(self, uinfo,
             continue
 
         if len(kp_node.private.service_list) > 0:
-            for service_id in kp_node.private.service_list:
-                child_services.append(str(service_id))
-            parent_services.append(path)
-            pair = {path:item.service_id}
-            services_xpath.update(pair)
+            if len(ignore_xpaths)>0:
+                for keypath_to_ignore in ignore_xpaths:
+                    if keypath_to_ignore in item.service_id:
+                        self.log.info("Removing keypath %s from results" % item.service_id)
+                        skip = True
+            if skip:
+                continue
+            else:
+                for service_id in kp_node.private.service_list:
+                    child_services.append(str(service_id))
+                parent_services.append(path)
+                pair = {path:item.service_id}
+                services_xpath.update(pair)
         else:
-            regular_services.append(path)
-            pair = {path:item.service_id}
-            services_xpath.update(pair)
+            if len(ignore_xpaths)>0:
+                for keypath_to_ignore in ignore_xpaths:
+                    if keypath_to_ignore in item.service_id:
+                        self.log.info("Removing keypath %s from results" % item.service_id)
+                        skip = True
+                if skip:
+                    continue
+                else:
+                    regular_services.append(path)
+                    pair = {path:item.service_id}
+                    services_xpath.update(pair)
     # Invoking set of child services, in case of multiple entries (shared
     # child services are used)
     unique_child_services = set(child_services)
