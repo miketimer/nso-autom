@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Execution Log</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #log-container {
+            background-color: #f4f4f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Test Execution Log</h1>
+<p>This section will display the logs of test executions.</p>
+
+<div id="log-container">
+    <pre id="test-log">
+        <!-- Test execution logs will be inserted here -->
+        Tests successfully passed on executed path: packages/day1-config/test/iosxr-cli0
+        Tests successfully passed on executed path: packages/day1-config/test/iosxr-cli0
+        Tests successfully passed on executed path: packages/stacked-service/test/iosxr-cli0_greatVRF
+        Tests successfully passed on executed path: packages/stacked-service/test/iosxr-cli0_greatVRF
+        [('Service instance ', ListElement name=day1-config tag=2024532493 keys={iosxr-cli0}, '\nComparison of ', 'packages/day1-config/test/iosxr-cli0/cdb_diff.xml', ' and ', 'packages/day1-config/test/iosxr-cli0/execution_log/2025-04-11_15-04-44/cdb_diff.xml', ' was SUCCESSFUL, no differences found\n'), ('Service instance ', ListElement name=day1-config tag=2024532493 keys={iosxr-cli0}, '\nComparison of ', 'packages/day1-config/test/iosxr-cli0/cdb_diff.xml', ' and ', 'packages/day1-config/test/iosxr-cli0/execution_log/2025-04-11_15-04-44/cdb_diff.xml', ' was SUCCESSFUL, no differences found\n'), ('Service instance ', ListElement name=stacked-service tag=70667370 keys={iosxr-cli0 greatVRF}, '\nComparison of ', 'packages/stacked-service/test/iosxr-cli0_greatVRF/cdb_diff.xml', ' and ', 'packages/stacked-service/test/iosxr-cli0_greatVRF/execution_log/2025-04-11_15-04-44/cdb_diff.xml', ' was SUCCESSFUL, no differences found\n'), ('Service instance ', ListElement name=stacked-service tag=70667370 keys={iosxr-cli0 greatVRF}, '\nComparison of ', 'packages/stacked-service/test/iosxr-cli0_greatVRF/cdb_diff.xml', ' and ', 'packages/stacked-service/test/iosxr-cli0_greatVRF/execution_log/2025-04-11_15-04-44/cdb_diff.xml', ' was SUCCESSFUL, no differences found\n')]
+    </pre>
+</div>
+
+
+
+</body>
+</html>
