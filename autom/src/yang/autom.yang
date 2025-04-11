@@ -124,6 +124,12 @@ module autom {
           description "Store test log in the packages folder";
           type empty;
         }
+        leaf-list ignore-xpaths {
+          tailf:info "Input xpaths of service points to be ignored (list in [])";
+          description "Input xpaths of service points to be ignored (list in [])";
+          type tailf:node-instance-identifier;
+          tailf:cli-completion-actionpoint "servicepoints";
+        }
         leaf no-networking {
           tailf:info "No-networking means no diff sent to network devices";
           description "No-networking means no diff sent to network devices";
@@ -200,10 +206,6 @@ module autom {
           }
         }
       }
-    }
-    leaf no-networking {
-      type empty;
-      description "Run or create tests without touching the network";
     }
   }
 }

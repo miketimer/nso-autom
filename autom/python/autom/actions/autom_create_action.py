@@ -65,12 +65,6 @@ class AutomCreateAction(Action):
         current_date_time = now.strftime("%Y-%m-%d_%H-%M-%S")
         folder_path = os.path.dirname(__file__)
         child_services = []
-        # Choice:
-        # service_instance with specific keypaths as a leaf-list
-        # all-service-instances true (all responses from services
-        #     check-sync)
-        # modify-variation with service keypath and parameters
-        #     to be modified
         mod_pos_p_list = {}
         mod_neg_p_list = {}
         all_services = []
@@ -80,16 +74,10 @@ class AutomCreateAction(Action):
         top_level_svc = []
         no_networking = False
         test_in_isolation = False
-        all_service_instances = False
-        add_to_previous = False
-        testcase_type = "None"
         if input.no_networking:
             no_networking = True
         if input.test_in_isolation:
             test_in_isolation = True
-        if input.all_service_instances:
-            all_service_instances = True
-            testcase_type = "all-service-instances"
         if len(input.service_instance)>0:
             testcase_type = "service-instance"
         dry_run = False
@@ -103,8 +91,6 @@ class AutomCreateAction(Action):
         child_services = []
         regular_services = []
         top_level_services = []
-        service_merge = []
-        # For NSO 5.x the individual service-instance check-sync result could be used, no longer an option in NSO 6.x
         if len(input.service_instance) > 0:
              child_services, parent_services, regular_services, top_level_services, services_xpath = get_service_keypaths(self,
                                      uinfo,

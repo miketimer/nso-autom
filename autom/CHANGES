@@ -2,6 +2,10 @@
  AUTOM Change Log
 =====================================
 
+Version 0.2.1
+  Fixes: 
+  - Bug hit when child services are hit in the test run (testing child services of stacked parent services is currently not supported and automatically ignored)
+  
 Version 0.2
   Additions:
   - Added feature ignore-xpaths to ignore service points (list in []) for create-tests action

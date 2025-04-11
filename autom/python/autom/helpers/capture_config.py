@@ -116,7 +116,7 @@ def capture_config(self, uinfo, folder_path, packages_folder_path, service_keypa
         else:
             self.log.info("All services could be children, please check input")
             function_result = "The option test-in-isolation doesn't work with only child services as input"
-            return function_result, files.service_config_file_xml
+            return function_result, files.service_config_file_xml, files
 
    
     plan_xpath = None

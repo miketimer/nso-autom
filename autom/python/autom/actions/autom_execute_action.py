@@ -57,11 +57,12 @@ class AutomExecuteAction(Action):
         file_lines = command_output.splitlines()
         self.log.info(file_lines)
         exec_result =""
-        ignore_xpaths = []
+        ignore_xpaths = input.ignore_xpaths
         services_list = get_services_check_sync_result(self, root)
         child_services, parent_services, regular_services, top_level_services, services_xpath = get_service_keypaths(self,
                                      uinfo,
-                                     services_list)
+                                     services_list, 
+                                     ignore_xpaths)
         compare_results = []
         all_tests_passed = []
         exec_result = ""
@@ -88,24 +89,49 @@ class AutomExecuteAction(Action):
                 result, service_config_file_xml, files = capture_config(self, uinfo, input.packages_folder_path, input.packages_folder_path, keypath_node,
                                                 current_date_time, input.no_networking, test_in_isolation, False, parent_services, 
                                                 regular_services, child_services, top_level_services, services_list, services_xpath, [], [], files_to_load_merge, True, True)
-                compare_path = files.compare_folder
-                compare_result, fd = compare_xml(os.path.join(compare_path, "cdb_diff.xml"), os.path.join(files.output_folder, "cdb_diff.xml"), self.log, files.output_folder)
-                
-                if compare_result == True:
-                    result_string = "Service instance ", keypath_node, "\nComparison of ", os.path.join(compare_path, "cdb_diff.xml"), " and ", os.path.join(files.output_folder, "cdb_diff.xml") , " was SUCCESSFUL, no differences found\n"
-                    self.log.info(result_string)
-                    exec_result += "Tests successfully passed on executed path: "+ str(compare_path) + "\n"
-                    compare_results.append(result_string)
-                    all_tests_passed.append(True)
-                else:
-                    result_string = "Service instance ", keypath_node, "\nComparison of ", os.path.join(compare_path, "cdb_diff.xml"), " and ", os.path.join(files.output_folder, "cdb_diff.xml"), " FAILED, differences found, see ", os.path.join(compare_path, "diff_log.html"), " for details\n"
-                    self.log.info(result_string)
-                    exec_result += "Test execution found that the xml comparison failed, see " + str(os.path.join(files.output_folder, "diff_log.html")) + " for details\n"
-                    compare_results.append(result_string)
-                    all_tests_passed.append(False)
+                if "True" in str(result):
+                    compare_path = files.compare_folder
+                    compare_result, fd = compare_xml(os.path.join(compare_path, "cdb_diff.xml"), os.path.join(files.output_folder, "cdb_diff.xml"), self.log, files.output_folder)
+                    
+                    if compare_result == True:
+                        result_string = "Service instance ", keypath_node, "\nComparison of ", os.path.join(compare_path, "cdb_diff.xml"), " and ", os.path.join(files.output_folder, "cdb_diff.xml") , " was SUCCESSFUL, no differences found\n"
+                        self.log.info(result_string)
+                        exec_result += "Tests successfully passed on executed path: "+ str(compare_path) + "\n"
+                        compare_results.append(result_string)
+                        all_tests_passed.append(True)
+                    else:
+                        result_string = "Service instance ", keypath_node, "\nComparison of ", os.path.join(compare_path, "cdb_diff.xml"), " and ", os.path.join(files.output_folder, "cdb_diff.xml"), " FAILED, differences found, see ", os.path.join(compare_path, "diff_log.html"), " for details\n"
+                        self.log.info(result_string)
+                        exec_result += "Test execution found that the xml comparison failed, see " + str(os.path.join(files.output_folder, "diff_log.html")) + " for details\n"
+                        compare_results.append(result_string)
+                        all_tests_passed.append(False)
+                    compare_path = files.compare_folder
+                    compare_result, fd = compare_xml(os.path.join(compare_path, "cdb_diff.xml"), os.path.join(files.output_folder, "cdb_diff.xml"), self.log, files.output_folder)
+                    
+                    if compare_result == True:
+                        result_string = "Service instance ", keypath_node, "\nComparison of ", os.path.join(compare_path, "cdb_diff.xml"), " and ", os.path.join(files.output_folder, "cdb_diff.xml") , " was SUCCESSFUL, no differences found\n"
+                        self.log.info(result_string)
+                        exec_result += "Tests successfully passed on executed path: "+ str(compare_path) + "\n"
+                        compare_results.append(result_string)
+                        all_tests_passed.append(True)
+                    else:
+                        result_string = "Service instance ", keypath_node, "\nComparison of ", os.path.join(compare_path, "cdb_diff.xml"), " and ", os.path.join(files.output_folder, "cdb_diff.xml"), " FAILED, differences found, see ", os.path.join(compare_path, "diff_log.html"), " for details\n"
+                        self.log.info(result_string)
+                        exec_result += "Test execution found that the xml comparison failed, see " + str(os.path.join(files.output_folder, "diff_log.html")) + " for details\n"
+                        compare_results.append(result_string)
+                        all_tests_passed.append(False)
+                else: 
+                    continue                
         _close_trans(trans)
         if False in all_tests_passed:
+            #if input.store_test_log == True:
+            write_file(os.path.join(files.output_folder, "test_log.txt"), exec_result + str(compare_results))
             output.result = exec_result + str(compare_results)
+            #if input.store_test_log == True:
+            write_file(os.path.join(files.output_folder, "test_log.txt"), exec_result + str(compare_results))
         else:
+            #if input.store_test_log == True:
+            write_file(os.path.join(files.output_folder, "test_log.txt"), exec_result + str(compare_results))
             output.result = "All tests passed, no differences found in the compared files"
+            
         #output.result = compare_results
