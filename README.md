@@ -16,13 +16,25 @@ Initial build is built in NSO v6.4.1 but it will run in any NSO v5.2.3 or newer.
 - test-in-isolation (available in create-tests, automated in execute-tests)  <-- Removes all other service-instances from NSO before generating clean test cases for each service-instance in sequence.
 
 ### A typical workflow will be for testing:
-Load the packages with generated test files included
-Execute load-merge with the input "file-path <path-to-packages-folder>"
-This will load-merge all service_config.xml files for execution purposes.
-Run the autom create-tests action with all-service-instances as keyword and packages-folder-path set to your NSO runtime packages folder, all test cases will have files generated in sequence.
-Modify any and all code/templates/yang etc.
-Before committing any code to git, run the autom execute-tests action with keyword all-service-instances to check for the failures. Open any logs that show the differences found, double check the modifications shown. If the modifications are expected, run the action autom create-tests all-service-instances (with optional keyword test-in-isolation) to create new test cases.
-Commit package modifications with new test cases included in the tests folder to git. 
+<p>If you already have test files generated previously:</p>
+<p>*******************************************************************************************************************************************</p>
+<p>Load the packages with generated test files included<br />
+Execute load-merge with the input "file-path &lt;path-to-packages-folder&gt;"<br /></p>
+<p><code>admin@ncs# autom load-merge service-config file-path packages</code></p>
+<p>This will load-merge all service_config.xml files for execution purposes.</p>
+<p>*******************************************************************************************************************************************</p>
+<p>IF you haven't already created test cases, do the following steps before modifying your package code/yang:</p>
+<p>*******************************************************************************************************************************************</p>
+<p>Run the autom create-tests action with all-service-instances as keyword and packages-folder-path set to your NSO runtime packages folder, all test cases will have files generated in sequence.</p>
+<p><code>admin@ncs# autom create-tests all-service-instances test-in-isolation packages-folder-path packages</code><br /></p>
+<p>*******************************************************************************************************************************************</p>
+<p>Modify any and all code/templates/yang etc.</p>
+<p>Before committing any code to git, run the autom execute-tests action with keyword all-service-instances to check for the failures.</p>
+<p><code>admin@ncs# autom execute-tests all-service-instances packages-folder-path packages</code></p>
+<p>Open any logs that show the differences found, double check the modifications shown.</p>
+<p>If the modifications are expected, run the action autom create-tests all-service-instances (with optional keyword test-in-isolation) to create new test cases.</p>
+<p><code>admin@ncs# autom create-tests all-service-instances test-in-isolation packages-folder-path packages</code><br /></p>
+<p>Commit package modifications with new test cases included in the tests folder to git. </p>
 
 # AUTOM stores all test files in the packages/name/test folder
 
