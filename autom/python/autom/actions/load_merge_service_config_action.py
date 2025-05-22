@@ -52,16 +52,18 @@ class LoadMergeServiceConfig(Action):
         test_data_array = []
         file  = command_output.splitlines()
         for item in file:
+            if "execution_log" in item:
+                continue
             try:
                 thandle_write = maapi.start_trans2(sock_maapi, _ncs.RUNNING,
-                                                    _ncs.READ_WRITE,
-                                                    uinfo.usid)
+                                    _ncs.READ_WRITE,
+                                    uinfo.usid)
                 maapi.load_config(sock_maapi, thandle_write,
-                                maapi.CONFIG_XML_PRETTY + maapi.CONFIG_MERGE,
-                                item)
+                        maapi.CONFIG_XML_PRETTY + maapi.CONFIG_MERGE,
+                        item)
                 maapi.apply_trans(sock_maapi,
-                                    thandle_write,
-                                    keepopen=False)
+                            thandle_write,
+                            keepopen=False)
 
             except Exception as e:
                 raise e

@@ -649,7 +649,7 @@ def service_has_plan(self, kpath, xpath, uinfo):
     #kp_node_oper_data = ncs.maagic.cd(root, kpath)
     plan_location = get_plan_location(self.log, root, kp_node, xpath)
     if plan_location is not None:
-        plan_location_node = ncs.maagic.get_node(t, maapi.xpath2kpath(
+        plan_location_node = ncs.maagic.get_node(trans, maapi.xpath2kpath(
                                         sock_maapi,
                                         plan_location))
         self.log.info("Plan Location Node: ", plan_location_node._path)

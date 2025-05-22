@@ -78,8 +78,6 @@ class AutomCreateAction(Action):
             no_networking = True
         if input.test_in_isolation:
             test_in_isolation = True
-        if len(input.service_instance)>0:
-            testcase_type = "service-instance"
         dry_run = False
         if input.dry_run:
             dry_run = True
@@ -124,11 +122,9 @@ class AutomCreateAction(Action):
         # By default (boolean exclude-children) the child services of
         # stacked services will be removed from testing separately.
         # To add these for testing, the include-children must be set
-        #if len(input.modify_variation) > 0:
-        #    for item in input.modify_variation:
-        #        all_services.append(item.service_instance)
-        _close_trans(trans)
-
+        use_test = True
+        self.log.info("All_services: %s " % all_services)
+      
         if input.include_children:
             all_services = top_level_services + parent_services + regular_services + child_services
         else:
@@ -141,8 +137,6 @@ class AutomCreateAction(Action):
             ) + ":: Failed at generating any files, input does not include children (add include_children keyword)\nWARNING: testing of child services of stacked parent services will result in unexpected errors"
             return result
 
-        use_test = True
-        self.log.info("All_services: %s " % all_services)
 
         if test_in_isolation==True:
             for service_keypath in top_level_services:

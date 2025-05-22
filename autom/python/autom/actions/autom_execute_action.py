@@ -17,7 +17,7 @@ from ..helpers.tools import config_cli_cleanup, get_config_from_device, write_fi
 from ..comparison.config_comparison import compare_xml
 from ..helpers.xpath import xpath
 from ..helpers.create_helper import dryrun_configuration, service_has_plan, zombie_exists, delete_kpath_from_cdb, wait_for_zombie
-from ..helpers.create_helper import _open_new_trans, _close_trans, compare_config_devices_affected, is_top_level_parent
+from ..helpers.create_helper import _open_new_trans, _open_new_wr_trans, _close_trans, compare_config_devices_affected, is_top_level_parent
 from ..helpers.create_helper import load_cdb_config_from_file, compare_config_devices_affected, get_service_keypaths, get_services_check_sync_result
 from ..helpers.create_helper import redeploy_reconcile_no_networking, redeploy_reconcile
 from ..helpers.capture_config import capture_config
@@ -48,7 +48,7 @@ class AutomExecuteAction(Action):
         now = datetime.now()
         result = False
         current_date_time = now.strftime("%Y-%m-%d_%H-%M-%S")
-        trans, thandle, sock_maapi, root = _open_new_trans(uinfo)
+        trans, thandle, sock_maapi, root = _open_new_wr_trans(uinfo)
         folder_path = input.packages_folder_path
         command = f'find {folder_path} -name "dry_run_data.txt"'
         command_output = run_command(command)
