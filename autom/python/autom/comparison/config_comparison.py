@@ -541,7 +541,7 @@ def make_html_xml(diff_root):
     return html_txt
 
 
-def compare_xml(expected_xml, actual_xml, logger, directory):
+def compare_xml(expected_xml, actual_xml, logger, diff_log_filename, directory):
     """ Compares xml content.
     You can pass the xml as strings or as filenames.
     The keyword fails if the xml content is different, the results are printed
@@ -571,10 +571,10 @@ def compare_xml(expected_xml, actual_xml, logger, directory):
         result, diff_root = xml_compare(expect_root, actual_root)
         if not result:
             html_content = make_html_xml(diff_root)
-            with open(os.path.join(directory, 'diff_log.html'), "w+") as fd:
+            with open(os.path.join(directory, diff_log_filename + '.html'), "w+") as fd:
                 fd.write(html_content)
             logger.info(
-                'xml comparison failed, please check log.html for details')
+                'xml comparison failed, please check '+ diff_log_filename + '.html for details')
             return False, fd
 
         return True, None

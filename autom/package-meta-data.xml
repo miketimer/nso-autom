@@ -1,6 +1,6 @@
 <ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
   <name>autom</name>
-  <package-version>0.3.1</package-version>
+  <package-version>0.4</package-version>
   <description>AUTOM - Automatic Unit Testing Orchestrator Module</description>
   <ncs-min-version>5.2.3</ncs-min-version>
 

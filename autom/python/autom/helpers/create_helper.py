@@ -63,6 +63,7 @@ def write_dry_run_data(folder_path, keypaths, test_in_isolation, pre_config_file
     for path in keypaths:
         text = text + path + ";"
     text = text + "\n" + folder_path + "/service_config.xml\n" + folder_path + "/cdb_diff.xml"
+    test = text + "\n" + folder_path + "/devices_diff.xml"
     text = text + "\n" + "test_in_isolation: " + str(test_in_isolation)
     for item in pre_config_files:
         text = text + "\n" + folder_path + "/" + str(item) + ".xml"
@@ -608,13 +609,9 @@ def load_cdb_config_from_file(sock_maapi, load_file, no_networking, uinfo):
                 sock_maapi,
                 thandle_rw,
                 keepopen=False,
-                flags=_ncs.maapi.COMMIT_NCS_NO_NETWORKING + _ncs.maapi.COMMIT_NCS_NO_DEPLOY)
+                flags=_ncs.maapi.COMMIT_NCS_NO_NETWORKING)
         else:
-            maapi.apply_trans_flags(
-                sock_maapi,
-                thandle_rw,
-                keepopen=False,
-                flags=_ncs.maapi.COMMIT_NCS_NO_DEPLOY)
+            maapi.apply_trans(sock_maapi, thandle_rw, False)
 
     except Exception as e:
         raise e

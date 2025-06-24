@@ -2,8 +2,14 @@
  AUTOM Change Log
 =====================================
 
+Version 0.4
+  Additions:
+  - Added comparison of get-modifications (previously only cdb-diff dry-run output was compared)
+  Fixes:
+  - If service instance is not already configured, it will be automatically loaded into NSO before executing tests
+
 Version 0.3.1
-  Fixes: 
+  Fixes:
   - Fixed bug with dry-run execution phase, write transaction required
 
 Version 0.3
@@ -11,7 +17,7 @@ Version 0.3
   - Added store-test-log option, logs of test execution is stored in nso_runtime_folder/tests/current_date_time_execution_log.html (if tests folder is missing, it will be created)
 
 Version 0.2.1
-  Fixes: 
+  Fixes:
   - Bug hit when child services are hit in the test run (testing child services of stacked parent services is currently not supported and automatically ignored)
 
 Version 0.2
